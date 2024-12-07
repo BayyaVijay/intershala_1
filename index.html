@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Search Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+            background-color: #f9f9f9;
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        #search-box {
+            padding: 10px;
+            width: 100%;
+            max-width: 100%;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+            margin-bottom: 15px;
+        }
+
+        .filter {
+            margin-bottom: 15px;
+        }
+
+        .filter label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .filter select {
+            padding: 10px;
+            width: 100%;
+            max-width: 100%;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        #results {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .result {
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            font-size: 1rem;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 600px) {
+            body {
+                padding: 15px;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            .result {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Search Blog Posts</h1>
+    <input type="text" id="search-box" placeholder="Search for posts...">
+    
+    <div class="filter">
+        <label for="category-filter">Filter by category:</label>
+        <select id="category-filter">
+            <option value="all">All</option>
+            <option value="tech">Tech</option>
+            <option value="lifestyle">Lifestyle</option>
+            <option value="finance">Finance</option>
+        </select>
+    </div>
+
+    <div id="results">
+        <div class="result" data-category="tech">Understanding JavaScript Closures</div>
+        <div class="result" data-category="lifestyle">10 Tips for a Healthy Lifestyle</div>
+        <div class="result" data-category="finance">How to Save for Retirement</div>
+        <div class="result" data-category="tech">The Future of Artificial Intelligence</div>
+        <div class="result" data-category="lifestyle">Minimalism: Living with Less</div>
+    </div>
+
+    <script>
+        const searchBox = document.getElementById("search-box");
+        const categoryFilter = document.getElementById("category-filter");
+        const results = document.querySelectorAll(".result");
+
+        function filterResults() {
+            const searchTerm = searchBox.value.toLowerCase();
+            const selectedCategory = categoryFilter.value;
+
+            results.forEach(result => {
+                const text = result.textContent.toLowerCase();
+                const category = result.getAttribute("data-category");
+
+                if (
+                    (text.includes(searchTerm) || searchTerm === "") &&
+                    (selectedCategory === "all" || category === selectedCategory)
+                ) {
+                    result.classList.remove("hidden");
+                } else {
+                    result.classList.add("hidden");
+                }
+            });
+        }
+
+        searchBox.addEventListener("input", filterResults);
+        categoryFilter.addEventListener("change", filterResults);
+    </script>
+</body>
+</html>
